@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Stories DAW HAHAHA</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0f1a">
+
+<style>
+body {
+  height: 100vh;
+  margin: 0;
+  background: linear-gradient(to top, black, grey);
+  font-family: Arial;
+}
+
+/* NAVBAR */
+.navbar-container {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-radius: 100px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  color: white;
+}
+
+.navbar input {
+  border-radius: 100px;
+  border: none;
+  padding: 5px 10px;
+}
+
+.navbar button {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+/* LOGOUT STYLE */
+.logout-btn {
+  background: red;
+  color: white;
+}
+
+/* CONTENT */
+.content {
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+.container {
+  background: white;
+  border-radius: 15px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.container img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.container h2 {
+  font-size: 13px;
+}
+
+.container p, .container h4 {
+  margin: 3px 0;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar-container">
+  <div class="navbar">
+    <h3>Stories</h3>
+    <input placeholder="Search...">
+    <button>🔍</button>
+
+    <!-- 👤 USER EMAIL -->
+    <span id="userEmail" style="font-size:12px;"></span>
+
+    <!-- 🚪 LOGOUT -->
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <div class="container">
+    <img src="Screenshot_2026_0501_041544.png">
+    <h2>TITLE: I fell Inlove with my boyish Best Friend</h2>
+    <p>Part 1</p>
+    <h4>ELLADREAMS</h4>
+  </div>
+
+  <div class="container">
+    <img src="Screenshot_2026_0501_050345.png">
+    <h2>TITLE: Isang Bintanang Ikaw</h2>
+    <p>Part 1-2</p>
+    <h4>ELLADREAMS</h4>
+  </div>
+
+</div>
+
+<!-- SERVICE WORKER -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+
+<!-- 🔥 FIREBASE AUTH -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBs5yfx6M_YqGICH0alcoAvm3OkTLpeSKo",
+  authDomain: "tdmessager-27703.firebaseapp.com",
+  projectId: "tdmessager-27703",
+  appId: "1:411419610823:web:e03920275ed8370753b8e2"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+/* 🔒 PROTECT PAGE */
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "index.html";
+  } else {
+    document.getElementById("userEmail").innerText = user.email;
+  }
+});
+
+/* 🚪 LOGOUT */
+window.logout = function () {
+  signOut(auth)
+    .then(() => {
+      alert("Logged out!");
+      window.location.href = "index.html";
+    })
+    .catch(err => alert(err.message));
+};
+</script>
+
+</body>
+</html>
